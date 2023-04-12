@@ -41,6 +41,8 @@ export const validateForms = (
     }
   }
 
+  const formBtn = form?.querySelector("button");
+
   const validation = new JustValidate(selector, options, translation);
 
   if (translation && locale) {
@@ -54,15 +56,39 @@ export const validateForms = (
   validation.onSuccess(async (event) => {
     let formData = new FormData(event.target);
 
+    formBtn.disabled = true;
+
     const response = await fetch("mail.php", {
       method: "POST",
       body: formData,
     });
 
     if (response.status !== 200) {
+      const errorMessage = form.querySelector(".ask__form-status--error");
+
+      console.log(errorMessage)
+      errorMessage.style.display = "block";
+
+      setTimeout(() => {
+        errorMessage.style.display = "";
+        formBtn.disabled = false;
+      }, 5000);
+
       console.error("Ошибка при отправке!");
-      onFailSend();
+      // onFailSend();
       return false;
+    } else {
+      const successMessage = form.querySelector(
+        ".ask__form-status--success"
+      );
+
+      console.log(successMessage);
+      successMessage.style.display = "block";
+
+      setTimeout(() => {
+        successMessage.style.display = "";
+        formBtn.disabled = false;
+      }, 5000);
     }
 
     console.log("Отправлено");
