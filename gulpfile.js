@@ -30,6 +30,7 @@ const svgSprite = require("gulp-svg-sprite"),
   cheerio = require("gulp-cheerio"),
   replace = require("gulp-replace"),
   webp = require("gulp-webp"),
+  avif = require("gulp-avif"),
   imagemin = require("gulp-imagemin");
 // IMAGES
 
@@ -78,6 +79,16 @@ const clean = () => {
 const htmlInclude = () => {
   return (
     src([`${srcFolder}/*.html`])
+      // Оработка ошибок
+      .pipe(
+        plumber(
+          notify.onError({
+            title: "HTML",
+            message: "Error: <%= error.message %>",
+          })
+        )
+      )
+
       // Плагин позволяющий делать импорт html файлов
       .pipe(
         fileInclude({
@@ -101,6 +112,16 @@ const htmlInclude = () => {
 const htmlMinify = () => {
   return (
     src(`${buildFolder}/**/*.html`)
+      // Оработка ошибок
+      .pipe(
+        plumber(
+          notify.onError({
+            title: "HTML",
+            message: "Error: <%= error.message %>",
+          })
+        )
+      )
+
       // Сжатие html
       .pipe(
         htmlmin({
@@ -453,6 +474,13 @@ const webpImages = () => {
     .pipe(dest(paths.buildImgFolder));
 };
 
+// Конвертация картинок в avif
+const avifImages = () => {
+  return src([`${paths.srcImgFolder}/**/**.{jpg,jpeg,png}`])
+    .pipe(avif())
+    .pipe(dest(paths.buildImgFolder));
+};
+
 // Спрайты
 const svgSprites = () => {
   return src(paths.srcSvg)
@@ -512,6 +540,7 @@ const watchFiles = () => {
   watch(`${paths.resourcesFolder}/**`, resources);
   watch(`${paths.srcImgFolder}/**/**.{jpg,jpeg,png,svg}`, images);
   watch(`${paths.srcImgFolder}/**/**.{jpg,jpeg,png}`, webpImages);
+  watch(`${paths.srcImgFolder}/**/**.{jpg,jpeg,png}`, avifImages);
   watch(paths.srcSvg, svgSprites);
 };
 
@@ -553,6 +582,7 @@ exports.default = series(
   resources,
   images,
   webpImages,
+  avifImages,
   svgSprites,
   watchFiles
 );
@@ -567,6 +597,7 @@ exports.backend = series(
   resources,
   images,
   webpImages,
+  avifImages,
   svgSprites
 );
 
@@ -581,6 +612,7 @@ exports.build = series(
   resources,
   images,
   webpImages,
+  avifImages,
   svgSprites,
   htmlMinify
 );
@@ -596,6 +628,7 @@ exports.deploy = series(
   resources,
   images,
   webpImages,
+  avifImages,
   svgSprites,
   htmlMinify
 );
