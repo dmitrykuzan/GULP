@@ -47,35 +47,31 @@ export const modals = () => {
     const triggers = document.querySelectorAll(triggerSelector),
       modal = document.querySelector(modalSelector);
 
-    if (triggers && modal) {
-      // Перебираем триггеры и добавляем обработчик событий, которые открывает модальное окно
-      triggers.forEach((trigger) => {
-        trigger.addEventListener("click", () => {
-          actionsWithModal(modal, "open");
-        });
+    // Перебираем триггеры и добавляем обработчик событий, которые открывает модальное окно
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        actionsWithModal(modal, "open");
       });
+    });
 
-      // Обработчик клика по крестику
-      if (closeSelector) {
-        const close = modal.querySelector(closeSelector);
+    // Обработчик клика по крестику
+    if (closeSelector) {
+      const close = modal.querySelector(closeSelector);
 
-        close.addEventListener("click", () => {
+      close.addEventListener("click", () => {
+        actionsWithModal(modal, "close", timeout);
+      });
+    }
+
+    // Обработчик события по клику на черную прослойку
+    if (closeOverOverlay) {
+      modal.addEventListener("click", (e) => {
+        if (!e.target.closest(".modal__content")) {
           actionsWithModal(modal, "close", timeout);
-        });
-      }
-
-      // Обработчик события по клику на черную прослойку
-      if (closeOverOverlay) {
-        modal.addEventListener("click", (e) => {
-          if (!e.target.closest(".modal__content")) {
-            actionsWithModal(modal, "close", timeout);
-          }
-        });
-      }
+        }
+      });
     }
   }
-
-  // bindModal(".button", ".modal-page", ".modal__close");
 
   // функция для показа модального окна через какое-то определенное время
   function showModalByTime(selector, time) {
