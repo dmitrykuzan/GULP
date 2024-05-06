@@ -4,15 +4,11 @@
 import "./_vendor";
 
 // Functions
-import { mobileCheck } from "./functions/mobile-check";
-import { burger } from "./functions/burger";
-import { accordion } from "./functions/accordion";
+import { mobileCheck } from "./functions/";
+
 // Components
-// import { formValidation } from "./components/formValidation";
+// import { formValidation } from "./components/";
 
 window.addEventListener("DOMContentLoaded", () => {
   mobileCheck();
-  accordion(".ask__body", "ask__question", ".ask__wrap", "ask__wrap--active");
-  burger();
-  // formValidation();
 });

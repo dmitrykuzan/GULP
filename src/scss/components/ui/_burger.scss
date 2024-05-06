@@ -1,10 +1,10 @@
-$burgerMQ: em(991);
+$burgerMQ: em(992);
 
 .burger {
-  $width: 25px;
-  $height: 20px;
-  $bgColor: #fff;
-  $burgerLineHeight: 4px;
+  $width: 2.5rem;
+  $height: 2rem;
+  $bgColor: hsl(0deg 0% 0%);
+  $burgerLineHeight: 0.4rem;
 
   display: none;
 
@@ -38,19 +38,19 @@ $burgerMQ: em(991);
     }
 
     span {
-      top: 8px;
+      top: 0.8rem;
       transition: transform var(--transition);
     }
 
     &--active {
       &::before {
-        top: 8px;
+        top: 0.8rem;
         transform: rotate(45deg);
         transition: transform var(--transition), top var(--transition);
       }
 
       &::after {
-        bottom: 8px;
+        bottom: 0.8rem;
         transform: rotate(-45deg);
         transition: transform var(--transition), bottom var(--transition);
       }

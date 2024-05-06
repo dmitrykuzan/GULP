@@ -42,7 +42,7 @@ img {
 
 button {
   border: none;
-  color: currentcolor;
+  text-align: left;
   background-color: transparent;
   cursor: pointer;
 }
@@ -52,7 +52,7 @@ ol {
   list-style: none;
 }
 
-.input-reset {
+input {
   -webkit-appearance: none;
   appearance: none;
   border: none;
@@ -69,6 +69,10 @@ ol {
 
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
+}
+
+.focus-visible {
+  outline: auto 1px;
 }
 
 .ios .lock {
